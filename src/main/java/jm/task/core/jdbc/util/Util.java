@@ -29,12 +29,10 @@ public class Util {
         return conn;
     }
 
-
     public void execUpdate(String update) throws SQLException {
         Statement stmt = connection.createStatement();
         stmt.execute(update);
         stmt.close();
     }
-
 }
 
