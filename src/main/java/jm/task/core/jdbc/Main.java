@@ -7,17 +7,29 @@ import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-        // реализуйте алгоритм здесь
-        Util util = new Util();
 
-
-        //Возврат и вывод списка юзеров
         UserServiceImpl userService = new UserServiceImpl();
 
+
+        //Создание таблицы User(ов)
+        userService.createUsersTable();
+
+        //Добавление 4 User(ов)
+        for (int i = 0; i < 4; i++) {
+            userService.saveUser("Имя" + i, "Фамилия" + i, (byte) (i + 20));
+        }
+
+        //Получение всех User из базы и вывод в консоль ( должен быть переопределен toString в классе User)
         userService.getAllUsers();
 
-        //Добавление юзера
-        userService.saveUser("Ivasdfn", "adfadf", (byte) 27);
+        //Удаление юзера
+        userService.removeUserById(1);
+
+        //Очистка таблицы User(ов)
+        userService.cleanUsersTable();
+
+        //Удаление таблицы
+        userService.dropUsersTable();
 
 
     }

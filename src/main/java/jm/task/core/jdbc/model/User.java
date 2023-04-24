@@ -48,6 +48,18 @@ public class User {
         return lastName;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder("");
+
+        stringBuilder.append("UserID: " + this.getId() + ", ")
+                .append("Username:" + this.getName() + ", ")
+                .append("Lastname: " + this.getLastName() + ", ")
+                .append("age: " + this.age + ", ");
+
+        return stringBuilder.toString();
+    }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }

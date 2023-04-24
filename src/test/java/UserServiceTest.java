@@ -1,3 +1,4 @@
+import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.service.UserService;
 import jm.task.core.jdbc.service.UserServiceImpl;
 import org.junit.Assert;
@@ -7,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.List;
+
 
 public class UserServiceTest {
     private final UserService userService = new UserServiceImpl();

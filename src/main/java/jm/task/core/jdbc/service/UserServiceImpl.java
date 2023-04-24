@@ -11,45 +11,40 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
-    private final Connection connection;
+    UserDaoJDBCImpl userDaoJDBC;
+
+//    private final Connection connection;
 
     public UserServiceImpl() {
-        this.connection  = Util.getPostrgresConnection();
+        this.userDaoJDBC = new UserDaoJDBCImpl();
     }
 
 
-    public void createUsersTable() {
+    public void createUsersTable() throws SQLException {
+        userDaoJDBC.createUsersTable();
 
     }
 
-    public void dropUsersTable() {
-
+    public void dropUsersTable() throws SQLException {
+        userDaoJDBC.dropUsersTable();
     }
 
     public void saveUser(String name, String lastName, byte age) throws SQLException {
-
-
-
-
-        UserDaoJDBCImpl userDaoJDBC = new UserDaoJDBCImpl(connection);
-
         userDaoJDBC.saveUser(name, lastName, age);
-
-
     }
 
-    public void removeUserById(long id) {
+    public void removeUserById(long id) throws SQLException {
+
+        userDaoJDBC.removeUserById(id);
 
     }
 
     public List<User> getAllUsers() {
-        UserDao userDao = new UserDaoJDBCImpl(connection);
-
-        return userDao.getAllUsers() ;
+        return userDaoJDBC.getAllUsers();
 
     }
 
-    public void cleanUsersTable() {
-
+    public void cleanUsersTable() throws SQLException {
+        userDaoJDBC.cleanUsersTable();
     }
 }
