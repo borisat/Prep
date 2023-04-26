@@ -18,7 +18,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void createUsersTable() {
         try {
-            util.execUpdate("CREATE TABLE IF NOT EXISTS test_jdbc.public.user " +
+            util.execUpdate("CREATE TABLE IF NOT EXISTS test_jdbc.public.users_JDBC " +
                     "(user_id serial PRIMARY KEY, " +
                     "name VARCHAR(256), " +
                     "lastname VARCHAR(256), " +
@@ -30,7 +30,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void dropUsersTable() {
         try {
-            util.execUpdate("DROP TABLE IF EXISTS test_jdbc.public.user");
+            util.execUpdate("DROP TABLE IF EXISTS test_jdbc.public.users_JDBC");
         } catch (SQLException e) {
             System.out.println("Ошибка при удалении таблицы: " + e.getMessage());
         }
@@ -40,13 +40,13 @@ public class UserDaoJDBCImpl implements UserDao {
     public void saveUser(String name, String lastName, byte age) {
 
         try {
-            util.execUpdate("INSERT INTO test_jdbc.public.user (Name, Lastname, Age) values " +
+            util.execUpdate("INSERT INTO test_jdbc.public.users_JDBC (Name, Lastname, Age) values " +
                     "('" + name + "', '" + lastName + "', " + age + ")");
         } catch (SQLException e) {
             System.out.println("Ошибка при добавлени юзера: " + e.getMessage());
         }
 
-        System.out.println("User с именем " + name + " добавлен в базу данных");
+        System.out.println("User с именем " + name + " добавлен через JDBC");
 
 
     }
@@ -54,7 +54,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void removeUserById(long id) {
 
         try {
-            util.execUpdate("DELETE FROM test_jdbc.public.user WHERE user_id = " + id);
+            util.execUpdate("DELETE FROM test_jdbc.public.users_JDBC WHERE user_id = " + id);
         } catch (SQLException e) {
             System.out.println("Ошибка при удалении юзера: " + e.getMessage());
         }
@@ -62,7 +62,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public List<User> getAllUsers() {
         List<User> result = new ArrayList<>();
-        String SQL_SELECT = "Select * from test_jdbc.public.user";
+        String SQL_SELECT = "Select * from test_jdbc.public.users_JDBC";
 
         try {
             PreparedStatement preparedStatement = Util.getPostrgresConnection().prepareStatement(SQL_SELECT);
@@ -84,7 +84,7 @@ public class UserDaoJDBCImpl implements UserDao {
             }
 
             for (User user : result) {
-                System.out.println(user.toString());
+                System.out.println("JDBC" + user.toString());
             }
 
         } catch (SQLException e) {
@@ -96,7 +96,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void cleanUsersTable() {
 
         try {
-            util.execUpdate("DELETE FROM test_jdbc.public.user");
+            util.execUpdate("DELETE FROM test_jdbc.public.users_JDBC");
         } catch (SQLException e) {
             System.out.println("Ошибка при удалении юзера: " + e.getMessage());
         }
