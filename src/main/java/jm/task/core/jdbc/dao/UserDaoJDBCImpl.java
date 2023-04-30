@@ -65,8 +65,8 @@ public class UserDaoJDBCImpl implements UserDao {
         String SQL_SELECT = "Select * from test_jdbc.public.users_JDBC";
 
         try {
-            PreparedStatement preparedStatement = Util.getPostrgresConnection().prepareStatement(SQL_SELECT);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            CallableStatement callableStatement = Util.getPostrgresConnection().prepareCall("{call get_all_users()}");
+            ResultSet resultSet = callableStatement.executeQuery();
 
             while (resultSet.next()) {
 
@@ -92,6 +92,36 @@ public class UserDaoJDBCImpl implements UserDao {
         }
         return result;
     }
+
+//    public String getUseById(long id) {
+//        String result = null;
+//
+//        try {
+//            CallableStatement callableStatement = Util.getPostrgresConnection().prepareCall("{call get_user_by_id(?::integer)}");
+//            callableStatement.setLong(1, id);
+//            ResultSet resultSetID = callableStatement.executeQuery();
+//
+//            if (resultSetID.next()) {
+//
+//                String user_name = resultSetID.getString("name");
+//                String user_lastname = resultSetID.getString("lastname");
+//                byte user_age = resultSetID.getByte("age");
+//
+//                User user = new User();
+//                user.setId(id);
+//                user.setName(user_name);
+//                user.setLastName(user_lastname);
+//                user.setAge(user_age);
+//                result.toString();
+//            }
+//
+//        } catch (SQLException e) {
+//            System.out.println("Ошибка при получении списка юзеров: " + e.getMessage());
+//        }
+//
+//
+//        return result;
+//    }
 
     public void cleanUsersTable() {
 

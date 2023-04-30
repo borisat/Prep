@@ -65,6 +65,9 @@ public class UserServiceImpl implements UserService {
 
     public List<User> getAllUsers() {
 
+
+
+
         List<User> jdbcuser = userDaoJDBC.getAllUsers();
 
         Session session = util.getSessionFactory().openSession();

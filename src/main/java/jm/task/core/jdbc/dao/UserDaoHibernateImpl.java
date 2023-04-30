@@ -10,7 +10,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 public class UserDaoHibernateImpl implements UserDao {
-
+    String string;
     Session session;
 
     public UserDaoHibernateImpl(Session session) {
