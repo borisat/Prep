@@ -62,7 +62,6 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public List<User> getAllUsers() {
         List<User> result = new ArrayList<>();
-        String SQL_SELECT = "Select * from test_jdbc.public.users_JDBC";
 
         try {
             CallableStatement callableStatement = Util.getPostrgresConnection().prepareCall("{call get_all_users()}");
@@ -84,7 +83,7 @@ public class UserDaoJDBCImpl implements UserDao {
             }
 
             for (User user : result) {
-                System.out.println("JDBC" + user.toString());
+                System.out.println("JDBC + Callable: " + user.toString());
             }
 
         } catch (SQLException e) {
@@ -92,36 +91,6 @@ public class UserDaoJDBCImpl implements UserDao {
         }
         return result;
     }
-
-//    public String getUseById(long id) {
-//        String result = null;
-//
-//        try {
-//            CallableStatement callableStatement = Util.getPostrgresConnection().prepareCall("{call get_user_by_id(?::integer)}");
-//            callableStatement.setLong(1, id);
-//            ResultSet resultSetID = callableStatement.executeQuery();
-//
-//            if (resultSetID.next()) {
-//
-//                String user_name = resultSetID.getString("name");
-//                String user_lastname = resultSetID.getString("lastname");
-//                byte user_age = resultSetID.getByte("age");
-//
-//                User user = new User();
-//                user.setId(id);
-//                user.setName(user_name);
-//                user.setLastName(user_lastname);
-//                user.setAge(user_age);
-//                result.toString();
-//            }
-//
-//        } catch (SQLException e) {
-//            System.out.println("Ошибка при получении списка юзеров: " + e.getMessage());
-//        }
-//
-//
-//        return result;
-//    }
 
     public void cleanUsersTable() {
 
