@@ -1,6 +1,5 @@
 package jm.task.core.jdbc.dao;
 
-import java.lang.module.Configuration;
 import java.util.List;
 
 import jm.task.core.jdbc.model.User;
@@ -10,63 +9,63 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 public class UserDaoHibernateImpl implements UserDao {
-    String string;
     Session session;
+    Util util;
 
-    public UserDaoHibernateImpl(Session session) {
-        this.session = session;
+    public UserDaoHibernateImpl() {
+        this.util = new Util();
     }
 
 
     @Override
     public void createUsersTable() {
-        Util util = new Util();
     }
 
     @Override
     public void dropUsersTable() {
-        Transaction tx1 = session.beginTransaction();
-        String sql = "DROP TABLE IF EXISTS test_jdbc.public.user_hiber ";
-        Query query = session.createNativeQuery(sql);
-        query.executeUpdate();
-        tx1.commit();
+        util.getSessionFactory().close();
     }
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
-        this.session.save(new User(name, lastName, age));
+        this.session = util.getSessionFactory().openSession();
+        session.save(new User(name, lastName, age));
+        session.close();
         System.out.println("User с именем " + name + " добавлен через Hiber");
     }
 
     @Override
     public void removeUserById(long id) {
-        User user = this.session.get(User.class, id);
+        this.session = util.getSessionFactory().openSession();
+        User user = session.get(User.class, id);
         Transaction tx1 = session.beginTransaction();
         session.delete(user);
         tx1.commit();
+        session.close();
     }
 
     @Override
     public List<User> getAllUsers() {
-        List<User> users = (List<User>) this.session
-                .getSessionFactory()
-                .openSession()
+        this.session = util.getSessionFactory().openSession();
+        List<User> users = (List<User>) session
                 .createQuery("From User")
                 .list();
 
         for (User user : users) {
             System.out.println("Hiber" + user.toString());
         }
+        session.close();
         return users;
-
     }
 
     @Override
     public void cleanUsersTable() {
+        this.session = util.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
         String hql = "DELETE FROM User";
         Query query = session.createQuery(hql);
         query.executeUpdate();
         tx1.commit();
+        session.close();
     }
 }
