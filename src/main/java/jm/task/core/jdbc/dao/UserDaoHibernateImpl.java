@@ -26,7 +26,6 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
-
         try (Session session = util.getSessionFactory().openSession()) {
             session.save(new User(name, lastName, age));
             System.out.println("User с именем " + name + " добавлен через Hiber");
@@ -35,7 +34,6 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void removeUserById(long id) {
-
         try (Session session = util.getSessionFactory().openSession()) {
             User user = session.get(User.class, id);
             Transaction tx1 = session.beginTransaction();
@@ -46,7 +44,6 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-
         try (Session session = util.getSessionFactory().openSession()) {
             List<User> users = (List<User>) session
                     .createQuery("From User")
@@ -61,7 +58,6 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void cleanUsersTable() {
-
         try (Session session = util.getSessionFactory().openSession()) {
             Transaction tx1 = session.beginTransaction();
             String hql = "DELETE FROM User";
